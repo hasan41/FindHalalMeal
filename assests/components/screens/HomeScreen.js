@@ -4,7 +4,7 @@ import SearchBar from '../bottom-nav-bar/SearchBar';
 
 const HomeScreen = () => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: '#bbd1ed' }}>
       <View style={{ marginTop: 120 }}>
         <SearchBar />
       </View>
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#c8f7c9', // Set the background color to blue
   },
   text: {
     fontSize: 20,
