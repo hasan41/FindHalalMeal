@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SearchBar from '../bottom-nav-bar/SearchBar';
@@ -26,6 +25,9 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Find Halal</Text>
+      </View>
       <View style={styles.searchBarContainer}>
         <SearchBar />
       </View>
@@ -39,6 +41,7 @@ const HomeScreen = () => {
           contentContainerStyle={styles.iconsList}
         />
       </View>
+      <View style={styles.line} />
       <View style={styles.contentContainer}>
         <Text>Home Screen</Text>
         <Button
@@ -55,11 +58,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#bbd1ed',
   },
-  searchBarContainer: {
-    marginTop: 120,
+  headerContainer: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    marginTop: 50,
+    marginLeft: 20,
+  },
+  headerText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: 'black',
     marginBottom: 10,
-    paddingHorizontal: 20,
-    marginLeft: -20, // Added marginLeft property
+  },
+  searchBarContainer: {
+    marginTop: 20,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   iconsContainer: {
     flexDirection: 'row',
@@ -68,7 +83,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   iconsList: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
     marginRight: 12,
   },
   iconContainer: {
@@ -80,13 +95,19 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'gray',
+    backgroundColor: '#d3c5fa',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  line: {
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 10,
+    width: '100%',
+  },
   iconLabel: {
     marginTop: 5,
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
   },
   contentContainer: {

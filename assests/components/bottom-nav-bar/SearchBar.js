@@ -6,10 +6,10 @@ const SearchBar = () => {
   return (
     <View style={styles.container}>
       <View style={styles.searchBox}>
-        <Ionicons name="ios-search" size={24} color="gray" style={styles.iconStyle} />
+        <Ionicons name="ios-search" size={24} color="black" style={styles.iconStyle} />
         <TextInput
-          placeholder="Search"
-          placeholderTextColor="gray"
+          placeholder="Search Halal"
+          placeholderTextColor="black"
           style={styles.inputStyle}
         />
       </View>
@@ -24,16 +24,16 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: -18,
   },
   searchBox: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: '#f5dff0',
     borderRadius: 25,
     paddingLeft: 15,
     alignItems: 'center',
     height: 40,
-    width: 400,
+    width: 380,
   },
   inputStyle: {
     flex: 1,
