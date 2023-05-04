@@ -4,8 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 import BrowseScreen from '../screens/BrowseScreen';
 
 const Tab = createBottomTabNavigator();
@@ -21,12 +21,12 @@ const TabNavigator = () => {
 
           if (route.name === 'Home') {
             iconName = 'ios-home';
-          } else if (route.name === 'Settings') {
-            iconName = 'ios-settings';
           } else if (route.name === 'Profile') {
             iconName = 'ios-person';
-          } else if (route.name === 'Browse') {
+          } else if (route.name === 'Explore') {
             iconName = 'ios-search';
+          } else if (route.name === 'Browse') {
+            iconName = 'ios-map';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -57,9 +57,9 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Browse" component={BrowseScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

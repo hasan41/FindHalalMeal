@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, Button, StyleSheet} from 'react-native';
 
 const ProfileScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>This is the Profile screen</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#d7cdf7'}}>
+      <Text>Settings Screen</Text>
       <Button
         title= "Click Here"
         onPress={() => alert('Butotn Clicked')}
@@ -13,18 +13,5 @@ const ProfileScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#8fcbbc',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-});
-
 export default ProfileScreen;
+

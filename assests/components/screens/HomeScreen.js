@@ -17,7 +17,7 @@ const HomeScreen = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.iconContainer}>
       <View style={styles.imageContainer}>
-        <Ionicons name={item.name} size={24} color="white" />
+        <Ionicons name={item.name} size={24} color="#ff82b2" />
       </View>
       <Text style={styles.iconLabel}>{item.label}</Text>
     </TouchableOpacity>
