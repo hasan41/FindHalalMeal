@@ -1,23 +1,23 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
 import SearchBar from '../bottom-nav-bar/SearchBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import * as Location from 'expo-location';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
 const BrowseScreen = () => {
+    
   const bottomSheetRef = useRef(null);
-  const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.015,
-    longitudeDelta: 0.0121,
-  });
+  const [region, setRegion] = useState(null);
 
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  
+  const mapRef = useRef(null);
 
+  
  useEffect(() => {
     if (selectedRestaurant) {
       setRegion({
@@ -28,9 +28,91 @@ const BrowseScreen = () => {
     }
   }, [selectedRestaurant]);
 
+  const animateToRestaurant = (restaurant) => {
+    if (mapRef.current) {
+      mapRef.current.animateCamera(
+        {
+          center: {
+            latitude: restaurant.latitude,
+            longitude: restaurant.longitude,
+          },
+          zoom: 15,
+        },
+        1000
+      );
+    }
+  };
+  
+
   const onIconPress = (restaurant) => {
     setSelectedRestaurant(restaurant);
+    animateToRestaurant(restaurant);
   };
+  
+  const [isUserOutOfLocation, setIsUserOutOfLocation] = useState(false);
+
+  const onMapRegionChangeComplete = async (newRegion) => {
+    setRegion(newRegion);
+    setSearchButtonVisible(true);
+  
+    if (userLocation) {
+      const distance = Math.sqrt(
+        Math.pow(newRegion.latitude - userLocation.latitude, 2) +
+          Math.pow(newRegion.longitude - userLocation.longitude, 2)
+      );
+  
+      setIsUserOutOfLocation(distance > 0.01); // Set threshold as needed
+    }
+  };
+
+  const [searchButtonVisible, setSearchButtonVisible] = useState(false);
+
+  const [userLocation, setUserLocation] = useState(null); // User's current location
+
+  //Locate to User's location
+  const animateToUserLocation = () => {
+    if (mapRef.current && userLocation) {
+      mapRef.current.animateCamera(
+        {
+          center: {
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+          },
+          zoom: 15,
+        },
+        1000
+      );
+    }
+  };
+  
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation(location.coords);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+      });
+    })();
+  }, []);
+
+
+  const searchArea = async () => {
+    // Get the current region from the map view
+    const currentRegion = await mapRef.current.getCamera();
+    setRegion(currentRegion);
+    setSearchButtonVisible(false);
+  };
+
 
 
   const renderRow = (restaurant) => (
@@ -79,13 +161,44 @@ const BrowseScreen = () => {
       <View style={styles.searchBarContainer}>
         <SearchBar style={styles.searchBarContainer} />
       </View>
+      {isUserOutOfLocation && (
+      <TouchableOpacity
+      style={styles.userLocationButtonContainer}
+      onPress={animateToUserLocation}
+      >
+        <Ionicons name="locate-sharp" size={30} color="blue" />
+        </TouchableOpacity>
+    )}
+      {region ? (
       <MapView
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        region={region}
+        initialRegion={region}
+        onRegionChangeComplete={onMapRegionChangeComplete}
       >
       {renderMarker()}
+      {userLocation && (
+      <Marker
+        coordinate={{
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+      }}
+      pinColor="blue"
+      />
+      )}
       </MapView>
+      ) : (
+        <View style={styles.map}>
+        {/* Wrap the loading message in a Text component */}
+        <Text>Loading...</Text>
+      </View>
+      )}
+      {searchButtonVisible && (
+        <View style={styles.searchButtonContainer}>
+          <Button title="Search this area" onPress={searchArea} />
+        </View>
+      )}
       <BottomSheet
         ref={bottomSheetRef}
         index={1}
@@ -175,6 +288,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 5,
   },
+  searchButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    zIndex: 1,
+  },
+  userLocationButtonContainer: {
+    position: 'absolute',
+    top: 130, // Adjust this value as needed
+    right: 20,
+    zIndex: 1,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  
+    elevation: 5,
+  },
+  
 });
 
 export default BrowseScreen;

@@ -1,127 +1,183 @@
+// import React, { useRef, useState, useEffect } from 'react';
+// import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+// import SearchBar from '../bottom-nav-bar/SearchBar';
+// import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+// import { Ionicons } from '@expo/vector-icons';
+// import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+// import * as Location from 'expo-location';
 
-//     import React from 'react';
-//     import {
-//       View,
-//       StyleSheet,
-//       Text,
-//       ScrollView,
-//       Animated,
-//       Dimensions,
-//     } from 'react-native';
-//     import { PanGestureHandler, State } from 'react-native-gesture-handler';
-//     import { onGestureEvent } from 'react-native-redash';
+// import halalRestaurantData from '../../../Halal_restaurant_data.json';
+
+// const BrowseScreen = () => {
     
-//     const bottomSheetContentPadding = 20;
-//     const iconRowHeight = 70;
-//     const deviceHeight = Dimensions.get('window').height;
-//     const paddingBottom =
-//       deviceHeight - bottomSheetContentPadding - iconRowHeight * 3; // assuming there are three iconRow components
-    
-//     const BottomSheet = () => {
-//       const translateY = new Animated.Value(0);
-    
-//       const gestureHandler = onGestureEvent({ y: translateY });
-    
-//       return (
-//         <View style={styles.container}>
-//           <View style={styles.searchBarContainer}>
-//             <Text style={styles.searchBarText}>Search Bar</Text>
-//           </View>
-//           <ScrollView contentContainerStyle={styles.scrollContainer}>
-//             <View style={styles.mapContainer}>
-//               <Text style={styles.mapText}>Map View</Text>
-//             </View>
-//           </ScrollView>
-//           <View style={styles.bottomSheet}>
-//             <PanGestureHandler
-//               onGestureEvent={gestureHandler}
-//               onHandlerStateChange={({ nativeEvent }) => {
-//                 if (nativeEvent.state === State.END) {
-//                   // animate to the nearest 100px position
-//                   Animated.timing(translateY, {
-//                     toValue: Math.round(nativeEvent.translationY / 100) * 100,
-//                     duration: 200,
-//                     useNativeDriver: true,
-//                   }).start();
-//                 }
-//               }}>
-//               <Animated.View
-//                 style={[
-//                   styles.bottomSheetContent,
-//                   { paddingBottom, transform: [{ translateY }] },
-//                 ]}>
-//                 <View style={styles.iconRow}>
-//                   <Text style={styles.iconText}>Icon 1</Text>
-//                 </View>
-//                 <View style={styles.iconRow}>
-//                   <Text style={styles.iconText}>Icon 2</Text>
-//                 </View>
-//                 <View style={styles.iconRow}>
-//                   <Text style={styles.iconText}>Icon 3</Text>
-//                 </View>
-//               </Animated.View>
-//             </PanGestureHandler>
-//           </View>
+//   const bottomSheetRef = useRef(null);
+//   const [region, setRegion] = useState({
+//     latitude: 37.78825,
+//     longitude: -122.4324,
+//     latitudeDelta: 0.015,
+//     longitudeDelta: 0.0121,
+//   });
+
+//   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  
+//  useEffect(() => {
+//     if (selectedRestaurant) {
+//       setRegion({
+//         ...region,
+//         latitude: selectedRestaurant.latitude,
+//         longitude: selectedRestaurant.longitude,
+//       });
+//     }
+//   }, [selectedRestaurant]);
+
+//   const onIconPress = (restaurant) => {
+//     setSelectedRestaurant(restaurant);
+//   };
+
+
+//   const renderRow = (restaurant) => (
+//     <TouchableOpacity onPress={() => onIconPress(restaurant)}>
+//       <View style={styles.iconRow}>
+//         <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
+//         <View style={styles.iconTextContainer}>
+//           <Text style={styles.iconText}>{restaurant.name}</Text>
+//           <Text style={styles.iconSubText}>{restaurant.cuisine}</Text>
+//           <Text style={styles.iconSubText}>{restaurant.location}</Text>
+//           <Text style={styles.iconSubText}>Rating: {restaurant.rating}</Text>
 //         </View>
+//         <Ionicons name="chevron-forward-outline" size={24} color="#ff82b2" />
+//       </View>
+//     </TouchableOpacity>
+//   );
+
+//   const birminghamRestaurants = halalRestaurantData.Alabama.Birmingham;
+
+//   const renderMarker = () => {
+//     if (selectedRestaurant) {
+//       return (
+//         <Marker
+//           coordinate={{
+//             latitude: selectedRestaurant.latitude,
+//             longitude: selectedRestaurant.longitude,
+//           }}
+//           title={selectedRestaurant.name}
+//           description={selectedRestaurant.cuisine}
+//         >
+//           <View style={styles.markerContainer}>
+//             <Image
+//               source={{ uri: selectedRestaurant.photo }}
+//               style={styles.markerImage}
+//             />
+//             <Text style={styles.markerText}>{selectedRestaurant.name}</Text>
+//           </View>
+//         </Marker>
 //       );
-//     };
-    
-//     const styles = StyleSheet.create({
-//       container: {
-//         flex: 1,
-//       },
-//       searchBarContainer: {
-//         height: 60,
-//         backgroundColor: 'white',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//       },
-//       searchBarText: {
-//         fontSize: 20,
-//       },
-//       scrollContainer: {
-//         flex: 1,
-//       },
-//       mapContainer: {
-//         height: 300,
-//         backgroundColor: 'gray',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//       },
-//       mapText: {
-//         fontSize: 20,
-//       },
-//       bottomSheet: {
-//         position: 'absolute',
-//         bottom: 0,
-//         left: 0,
-//         right: 0,
-//         backgroundColor: 'white',
-//         borderTopLeftRadius: 20,
-//         borderTopRightRadius: 20,
-//         shadowColor: 'black',
-//         shadowOffset: {
-//           width: 0,
-//           height: -2,
-//         },
-//         shadowOpacity: 0.1,
-//         shadowRadius: 3,
-//         elevation: 3,
-//       },
-//       bottomSheetContent: {
-//         padding: bottomSheetContentPadding,
-//         backgroundColor: 'white',
-//       },
-//       iconRow: {
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         height: iconRowHeight,
-//         borderBottomWidth: StyleSheet.hairlineWidth,
-//         borderBottomColor: 'gray',
-//           },
+//     }
+//     return null;
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.searchBarContainer}>
+//         <SearchBar style={styles.searchBarContainer} />
+//       </View>
+//       <MapView
+//         provider={PROVIDER_GOOGLE}
+//         style={styles.map}
+//         region={region}
+//       >
+//       {renderMarker()}
+//       </MapView>
+//       <BottomSheet
+//         ref={bottomSheetRef}
+//         index={1}
+//         snapPoints={['28%', '50%', '75%']}
+//         backgroundComponent={({ style }) => (
+//           <View
+//             style={[
+//               style,
+//               {
+//                 borderTopLeftRadius: 20,
+//                 borderTopRightRadius: 20,
+//                 backgroundColor: '#bbd1ed',
+//               },
+//             ]}
+//           />
+//         )}
+//       >
+//         <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
+//           {birminghamRestaurants.map((restaurant, index) => (
+//             <React.Fragment key={index}>{renderRow(restaurant)}</React.Fragment>
+//           ))}
+//         </BottomSheetScrollView>
+//       </BottomSheet>
+//     </View>
+//   );
+// };
+
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+//   searchBarContainer: {
+//     backgroundColor: 'transparent',
+//     position: 'absolute',
+//     top: 90,
+//     left: 0,
+//     right: 0,
+//     zIndex: 1,
+//     alignItems: 'center',
+//   },
+//   scrollView: {
+//     paddingBottom: 20,
+//   },
+//   map: {
+//     flex: 1,
+//   },
+//   iconRow: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginVertical: 8,
+//     borderRadius: 50,
+//     backgroundColor: '#efe4f5', 
+//     padding: 30,
+//   },
+//   iconImage: {
+//     width: 40,
+//     height: 40,
+//     borderRadius: 20,
+//   },
+//   iconTextContainer: {
+//     flex: 1,
+//     marginLeft: 20,
+//   },
 //   iconText: {
-//     fontSize: 20,
+//     fontWeight: 'bold',
+//     fontSize: 18,
+//   },
+//   iconSubText: {
+//     color: '#999999',
+//   },
+//   markerContainer: {
+//     flexDirection: 'row',
+//     backgroundColor: 'white',
+//     borderRadius: 5,
+//     padding: 5,
+//     borderColor: 'black',
+//     borderWidth: 1,
+//   },
+//   markerImage: {
+//     width: 40,
+//     height: 40,
+//     borderRadius: 20,
+//   },
+//   markerText: {
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//     marginLeft: 5,
 //   },
 // });
 
-// export default BottomSheet;
+// export default BrowseScreen;
+
