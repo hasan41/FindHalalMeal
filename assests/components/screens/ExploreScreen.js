@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../bottom-nav-bar/SearchBar';
 
 const ICON_SIZE = 48;
-const RECTANGLE_ICON_SIZE = 84; // New constant for rectangle icons size
+const RECTANGLE_ICON_SIZE = 80; // New constant for rectangle icons size
 
 const icons = [
   { name: 'pizza', label: 'Pizza' },

@@ -1,27 +1,42 @@
-import React, { useRef } from 'react';
-import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import SearchBar from '../bottom-nav-bar/SearchBar';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-// Import the JSON object
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
 const BrowseScreen = () => {
   const bottomSheetRef = useRef(null);
+  const [region, setRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
+  });
+
+  const onIconPress = (latitude, longitude) => {
+    setRegion({
+      ...region,
+      latitude,
+      longitude,
+    });
+  };
 
   const renderRow = (restaurant) => (
-    <View style={styles.iconRow}>
-      <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
-      <View style={styles.iconTextContainer}>
-        <Text style={styles.iconText}>{restaurant.name}</Text>
-        <Text style={styles.iconSubText}>{restaurant.cuisine}</Text>
-        <Text style={styles.iconSubText}>{restaurant.location}</Text>
-        <Text style={styles.iconSubText}>Rating: {restaurant.rating}</Text>
+    <TouchableOpacity onPress={() => onIconPress(restaurant.latitude, restaurant.longitude)}>
+      <View style={styles.iconRow}>
+        <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
+        <View style={styles.iconTextContainer}>
+          <Text style={styles.iconText}>{restaurant.name}</Text>
+          <Text style={styles.iconSubText}>{restaurant.cuisine}</Text>
+          <Text style={styles.iconSubText}>{restaurant.location}</Text>
+          <Text style={styles.iconSubText}>Rating: {restaurant.rating}</Text>
+        </View>
+        <Ionicons name="chevron-forward-outline" size={24} color="#ff82b2" />
       </View>
-      <Ionicons name="chevron-forward-outline" size={24} color="black" />
-    </View>
+    </TouchableOpacity>
   );
 
   const birminghamRestaurants = halalRestaurantData.Alabama.Birmingham;
@@ -34,12 +49,7 @@ const BrowseScreen = () => {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
+        region={region}
       ></MapView>
       <BottomSheet
         ref={bottomSheetRef}
@@ -68,6 +78,7 @@ const BrowseScreen = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 8,
     borderRadius: 50,
-    backgroundColor: '#efe4f5',
+    backgroundColor: '#efe4f5', 
     padding: 30,
   },
   iconImage: {

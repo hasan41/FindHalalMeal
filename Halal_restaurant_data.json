@@ -7,6 +7,8 @@
                 "photo": "https://www.zabihah.com/img/photos/146048_logo.jpg",
                 "cuisine": "AMERICAN, MEDITERRANEAN",
                 "location": "837 Park Road, Pleasant Grove, AL",
+                "latitude": 33.492783,
+                "longitude": -86.959944,
                 "rating": "5.0"
             },
             {
@@ -15,6 +17,8 @@
                 "photo": "https://www.zabihah.com/img/photos/147653.jpg",
                 "cuisine": "PERSIAN",
                 "location": "1550 Montgomery Highway, Suite P, Hoover, AL",
+                "latitude": 33.378097,
+                "longitude": -86.807725,
                 "rating": "5.0"
             },
             {
@@ -23,6 +27,8 @@
                 "photo": "https://www.zabihah.com/img/photos/chain_306.jpg",
                 "cuisine": "INDIAN",
                 "location": "2798 John Hawkins Parkway, Unit 108, Hoover, AL",
+                "latitude": 33.352839,
+                "longitude": -86.824183,
                 "rating": "5.0"
             },
             {
@@ -31,6 +37,8 @@
                 "photo": "https://www.zabihah.com/img/photos/10678.jpg",
                 "cuisine": "MIDDLE EASTERN",
                 "location": "940 20th Street South, Birmingham, AL",
+                "latitude": 33.499606,
+                "longitude": -86.798889,
                 "rating": "4.0"
             },
             {
@@ -39,6 +47,8 @@
                 "photo": "https://www.zabihah.com/img/photos/31617.jpg",
                 "cuisine": "MIDDLE EASTERN",
                 "location": "166 West Valley Avenue, Hoover, AL",
+                "latitude": 33.434845,
+                "longitude": -86.832437,
                 "rating": "NR"
             },
             {
@@ -47,6 +57,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "INDIAN",
                 "location": "500 15th Street, Tuscaloosa, AL",
+                "latitude": 33.199353,
+                "longitude": -87.566181,
                 "rating": "4.0"
             },
             {
@@ -55,6 +67,8 @@
                 "photo": "https://www.zabihah.com/img/photos/33309.jpg",
                 "cuisine": "YEMENI",
                 "location": "1208 University Blvd., Tuscaloosa, AL",
+                "latitude": 33.210087,
+                "longitude": -87.566082,
                 "rating": "NR"
             },
             {
@@ -63,6 +77,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "AMERICAN",
                 "location": "900 16th Street South, Birmingham, AL",
+                "latitude": 33.50034115865826,
+                "longitude": -86.8042232,
                 "rating": "NR"
             },
             {
@@ -71,6 +87,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "INDIAN",
                 "location": "1251 Opelika Road, Auburn, AL",
+                "latitude": 32.602944,
+                "longitude": -85.484198,
                 "rating": "NR"
             },
             {
@@ -79,6 +97,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "MEDITERRANEAN",
                 "location": "108 Highway 182, Starkville, MS",
+                "latitude": 33.465785,
+                "longitude": -88.814053,
                 "rating": "NR"
             },
             {
@@ -87,6 +107,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "MEDITERRANEAN",
                 "location": "282 West Thach Avenue, Auburn, AL",
+                "latitude": 32.606074,
+                "longitude": -85.481081,
                 "rating": "NR"
             },
             {
@@ -95,6 +117,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "GROCERIES, MEDITERRANEAN, HALAL MEAT",
                 "location": "1700 Greensboro Avenue, Unit 1, Tuscaloosa, AL",
+                "latitude": 33.195932,
+                "longitude": -87.566294,
                 "rating": "NR"
             },
             {
@@ -103,6 +127,8 @@
                 "photo": "https://www.zabihah.com/img/photos/134929.jpg",
                 "cuisine": "MEDITERRANEAN, AMERICAN",
                 "location": "2931 Columbiana Road, Vestavia Hills, AL",
+                "latitude": 33.431182,
+                "longitude": -86.789613,
                 "rating": "NR"
             },
             {
@@ -111,6 +137,8 @@
                 "photo": "https://www.zabihah.com/img/photos/136059_logo.jpg",
                 "cuisine": "INDIAN",
                 "location": "651 Highway 28 West, Suite B, Livingston, AL",
+                "latitude": 32.59738394987336,
+                "longitude": -88.18359170231797,
                 "rating": "NR"
             },
             {
@@ -119,6 +147,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "MIDDLE EASTERN",
                 "location": "401 19th Street South, Suite 100, Birmingham, AL",
+                "latitude": 33.505338,
+                "longitude": -86.798660,
                 "rating": "NR"
             },
             {
@@ -127,6 +157,8 @@
                 "photo": "https://www.zabihah.com/img/photos/140415.jpg",
                 "cuisine": "INDIAN",
                 "location": "729 20th Street South, Birmingham, AL",
+                "latitude": 33.502951,
+                "longitude": -86.798166,
                 "rating": "NR"
             },
             {
@@ -135,6 +167,8 @@
                 "photo": "https://www.zabihah.com/img/photos/141331_logo.jpg",
                 "cuisine": "INDIAN, PAKISTANI, MEDITERRANEAN",
                 "location": "3321 Lorna Road, Hoover, AL",
+                "latitude": 33.381947,
+                "longitude": -86.806174,
                 "rating": "NR"
             },
             {
@@ -143,6 +177,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "ETHIOPIAN, MEDITERRANEAN",
                 "location": "22 Green Springs Highway Ste, Homewood, AL",
+                "latitude": 33.468430,
+                "longitude": -86.810219,
                 "rating": "NR"
             },
             {
@@ -151,6 +187,8 @@
                 "photo": "https://www.zabihah.com/img/photos/149863_logo.jpg",
                 "cuisine": "INDIAN, PAKISTANI",
                 "location": "1841 Montgomery Highway, Suite 105, Hoover, AL",
+                "latitude": 33.376590,
+                "longitude": -86.808597,
                 "rating": "NR"
             },
             {
@@ -159,6 +197,8 @@
                 "photo": "https://www.zabihah.com/img/photos/chain_436.jpg",
                 "cuisine": "GREEK, LEBANESE, MIDDLE EASTERN",
                 "location": "942 Lake Mitchell Road, Clanton, AL",
+                "latitude": 32.850768,
+                "longitude": -86.629951,
                 "rating": "NR"
             },
             {
@@ -167,6 +207,8 @@
                 "photo": "https://www.zabihah.com/img/photos/167016_logo.jpg",
                 "cuisine": "HYDERABADI, INDIAN",
                 "location": "401 19th Street North, Suite 130, Birmingham, AL",
+                "latitude": 33.518638,
+                "longitude": -86.808417,
                 "rating": "NR"
             },
             {
@@ -175,6 +217,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "INDIAN",
                 "location": "1024 20th St South, Unit 101, Birmingham, Alabama",
+                "latitude": 33.503155,
+                "longitude": -86.798740,
                 "rating": "NR"
             },
             {
@@ -183,6 +227,8 @@
                 "photo": "https://www.zabihah.com/img/photo_zabihah.png",
                 "cuisine": "INDIAN, PAKISTANI",
                 "location": "22 Green Springs Highway, Homewood, AL",
+                "latitude": 33.468430,
+                "longitude": -86.810219,
                 "rating": "NR"
             },
             {
@@ -191,6 +237,8 @@
                 "photo": "https://www.zabihah.com/img/photos/56897.jpg",
                 "cuisine": "MEDITERRANEAN",
                 "location": "1629 10th Avenue South, Birmingham, AL",
+                "latitude": 33.500119,
+                "longitude": -86.796967,
                 "rating": "1.0"
             }
         ],
