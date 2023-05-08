@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import SearchBar from '../bottom-nav-bar/SearchBar';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
@@ -16,16 +16,25 @@ const BrowseScreen = () => {
     longitudeDelta: 0.0121,
   });
 
-  const onIconPress = (latitude, longitude) => {
-    setRegion({
-      ...region,
-      latitude,
-      longitude,
-    });
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+ useEffect(() => {
+    if (selectedRestaurant) {
+      setRegion({
+        ...region,
+        latitude: selectedRestaurant.latitude,
+        longitude: selectedRestaurant.longitude,
+      });
+    }
+  }, [selectedRestaurant]);
+
+  const onIconPress = (restaurant) => {
+    setSelectedRestaurant(restaurant);
   };
 
+
   const renderRow = (restaurant) => (
-    <TouchableOpacity onPress={() => onIconPress(restaurant.latitude, restaurant.longitude)}>
+    <TouchableOpacity onPress={() => onIconPress(restaurant)}>
       <View style={styles.iconRow}>
         <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
         <View style={styles.iconTextContainer}>
@@ -41,6 +50,30 @@ const BrowseScreen = () => {
 
   const birminghamRestaurants = halalRestaurantData.Alabama.Birmingham;
 
+  const renderMarker = () => {
+    if (selectedRestaurant) {
+      return (
+        <Marker
+          coordinate={{
+            latitude: selectedRestaurant.latitude,
+            longitude: selectedRestaurant.longitude,
+          }}
+          title={selectedRestaurant.name}
+          description={selectedRestaurant.cuisine}
+        >
+          <View style={styles.markerContainer}>
+            <Image
+              source={{ uri: selectedRestaurant.photo }}
+              style={styles.markerImage}
+            />
+            <Text style={styles.markerText}>{selectedRestaurant.name}</Text>
+          </View>
+        </Marker>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchBarContainer}>
@@ -50,7 +83,9 @@ const BrowseScreen = () => {
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         region={region}
-      ></MapView>
+      >
+      {renderMarker()}
+      </MapView>
       <BottomSheet
         ref={bottomSheetRef}
         index={1}
@@ -121,6 +156,24 @@ const styles = StyleSheet.create({
   },
   iconSubText: {
     color: '#999999',
+  },
+  markerContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    padding: 5,
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  markerImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  markerText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: 5,
   },
 });
 
