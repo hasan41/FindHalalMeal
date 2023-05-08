@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     alignItems: 'center',
     height: 40,
-    width: 380,
+    width: 370,
   },
   inputStyle: {
     flex: 1,

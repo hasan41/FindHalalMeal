@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../bottom-nav-bar/SearchBar';
 
-const ICON_SIZE = 46;
+const ICON_SIZE = 48;
+const RECTANGLE_ICON_SIZE = 84; // New constant for rectangle icons size
 
 const icons = [
   { name: 'pizza', label: 'Pizza' },
@@ -20,9 +21,28 @@ const icons = [
   { name: 'food-steak', label: 'Steak' },
 ];
 
+const rectangleIcons = [
+  { name: 'hamburger', label: 'Burgers' },
+  { name: 'french-fries', label: 'Fries' },
+  { name: 'food-variant', label: 'Dairy' },
+  { name: 'food', label: 'Fast Food' },
+  { name: 'food-fork-drink', label: 'Dinner' },
+  { name: 'food-steak', label: 'Steak' },
+  { name: 'food-croissant', label: 'Sweets' },
+  { name: 'fruit-cherries', label: 'Fruits' },
+  { name: 'ice-cream', label: 'IceCream' },
+  { name: 'food-turkey', label: 'Turkish' },
+  { name: 'food-takeout-box', label: 'Takeout' },
+  { name: 'fruit-watermelon', label: 'Shakes' },
+];
+
+
 const ExploreScreen = () => {
   const rows = Math.floor(icons.length / 4);
   const lastRowIconsCount = icons.length % 4;
+
+  const rectangleRows = Math.floor(rectangleIcons.length / 2);
+  const lastRectangleRowIconsCount = rectangleIcons.length % 2;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,7 +52,8 @@ const ExploreScreen = () => {
       <View style={styles.searchBarContainer}>
         <SearchBar />
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer} showsVerticalScrollIndicator={true}>
+      <View style={styles.scrollContent}> 
         <View style={styles.grid}>
           {[...Array(rows)].map((_, rowIndex) => (
             <View key={rowIndex} style={styles.row}>
@@ -67,10 +88,45 @@ const ExploreScreen = () => {
             </View>
           )}
         </View>
-        <View style={styles.searchBarContainer}>
-          {/* Your SearchBar component goes here */}
+        <View style={styles.browseHeader}>
+          <Text style={styles.browseHeaderText}>Halal food near me</Text>
         </View>
-      </View>
+        <View style={styles.rectangleGrid}>
+          {[...Array(rectangleRows)].map((_, rowIndex) => (
+            <View key={rowIndex} style={styles.rectangleRow}>
+              {[...Array(2)].map((_, colIndex) => {
+                const iconIndex = rowIndex * 2 + colIndex;
+                const icon = rectangleIcons[iconIndex];
+                return (
+                  <TouchableOpacity key={icon.name} style={styles.rectangleIconContainer}>
+                    <View style={styles.rectangleIconBackground}>
+                      <MaterialCommunityIcons name={icon.name} size={RECTANGLE_ICON_SIZE} color="#ff82b2" />
+                    </View>
+                    <Text style={styles.rectangleIconLabel}>{icon.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          ))}
+          {lastRectangleRowIconsCount > 0 && (
+            <View style={styles.rectangleRow}>
+              {[...Array(lastRectangleRowIconsCount)].map((_, colIndex) => {
+                const iconIndex = rectangleIcons.length - lastRectangleRowIconsCount + colIndex;
+                const icon = rectangleIcons[iconIndex];
+                return (
+                  <TouchableOpacity key={icon.name} style={styles.rectangleIconContainer}>
+                    <View style={styles.rectangleIconBackground}>
+                      <MaterialCommunityIcons name={icon.name} size={RECTANGLE_ICON_SIZE} color="#ff82b2" />
+                    </View>
+                    <Text style={styles.rectangleIconLabel}>{icon.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+        </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -86,13 +142,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginTop: 0,
-    marginLeft: -240,
+    marginLeft: 0,
   },
   headerText: {
     fontSize: 32,
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 10,
+    marginLeft: -170, // Add this line to move the text to the left
   },
   searchBarContainer: {
     marginTop: 20,
@@ -101,16 +158,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentContainer: {
-    flex: 1,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 20,
   },
+  
   grid: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: -340,
     },
     row: {
     flexDirection: 'row',
@@ -123,22 +178,73 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: ICON_SIZE + 20,
-    height: ICON_SIZE + 32,
-    margin: 2,
+    height: ICON_SIZE + 28,
+    margin: 1.4,
     },
     iconBackground: {
-    width: ICON_SIZE + 10,
-    height: ICON_SIZE,
+    width: ICON_SIZE + 20,
+    height: ICON_SIZE + 8,
     backgroundColor: '#d3c5fa',
-    borderRadius: 20,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
     },
     iconLabel: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
     color: '#5a5e56',
-    marginTop: 6,
+    marginTop: 4,
+    },
+    browseHeader: {
+      marginTop: 20,
+      marginBottom: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    browseHeaderText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: 'black',
+      marginLeft: -140,
+    },
+    rectangleGrid: {
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginTop: 20,
+    },
+    rectangleRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      width: '100%',
+      marginBottom: 6,
+    },
+    rectangleIconContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: RECTANGLE_ICON_SIZE + 100, // Update the width
+      height: RECTANGLE_ICON_SIZE + 30, // Update the height
+      backgroundColor: '#d3c5fa',
+      borderRadius: 20,
+      margin: 1.4,
+    },
+    rectangleIconBackground: {
+      position: 'absolute', // Set position to absolute
+      bottom: 4, // Align the icon to the bottom right
+      right: 4,
+    },
+    rectangleIconLabel: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#5a5e56',
+      position: 'absolute', // Set position to absolute
+      top: 4, // Align the label to the top left
+      left: 4,
+    },
+    scrollContent: {
+      paddingBottom: 100, // Add some padding at the bottom
+      flexGrow: 1,
     },
     });
     export default ExploreScreen;
