@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
+import * as Haptics from 'expo-haptics';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
@@ -161,6 +162,11 @@ const renderRow = (restaurant) => (
     }
     return null;
   };
+  
+  //Haptic Feedback on iPhone
+  const triggerHapticFeedback = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  }; 
 
   return (
     <View style={styles.container}>
@@ -170,13 +176,16 @@ const renderRow = (restaurant) => (
       {isUserOutOfLocation && (
       <TouchableOpacity
       style={styles.userLocationButtonContainer}
-      onPress={animateToUserLocation}
-      >
-        <Ionicons name="locate-sharp" size={30} color="#ff82b2" />
-        </TouchableOpacity>
+      onPress={() => {
+        animateToUserLocation();
+        triggerHapticFeedback();
+    }}
+>
+  <Ionicons name="locate-sharp" size={30} color="#ff82b2" />
+    </TouchableOpacity>
     )}
-      {region ? (
-      <MapView
+    {region ? (
+    <MapView
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
