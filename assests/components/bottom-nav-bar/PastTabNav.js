@@ -2,8 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
-import { ReanimatedArc } from 'react-native-redash';
-import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -12,27 +10,13 @@ import BrowseScreen from '../screens/BrowseScreen';
 
 const Tab = createBottomTabNavigator();
 
-const AnimatedIcon = ({ name, color, size, focused }) => {
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: focused ? withSpring(-5) : 0 }],
-    };
-  });
-
-  return (
-    <Animated.View style={animatedStyle}>
-      <Ionicons name={name} size={size} color={color} />
-    </Animated.View>
-  );
-};
-
 const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarIcon: ({ color, size, focused }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
 
           if (route.name === 'Home') {
@@ -45,7 +29,7 @@ const TabNavigator = () => {
             iconName = 'ios-map';
           }
 
-          return <AnimatedIcon name={iconName} size={size} color={color} focused={focused} />;
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarStyle: {
           position: 'absolute',
@@ -58,7 +42,7 @@ const TabNavigator = () => {
           height: 90,
           ...styles.shadow,
           borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
+          borderTopRightRadius: 30, // Set this property to make the bottom nav bar more curvy
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -66,7 +50,7 @@ const TabNavigator = () => {
           marginBottom: 3,
         },
         tabBarIconStyle: {
-          marginTop: 6,
+          marginTop: 6, // adjust this value to move the icons up or down
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
@@ -94,4 +78,3 @@ const styles = StyleSheet.create({
 });
 
 export default TabNavigator;
-

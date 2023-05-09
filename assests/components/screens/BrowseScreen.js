@@ -4,6 +4,7 @@ import SearchBar from '../bottom-nav-bar/SearchBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
@@ -115,20 +116,25 @@ const BrowseScreen = () => {
 
 
 
-  const renderRow = (restaurant) => (
-    <TouchableOpacity onPress={() => onIconPress(restaurant)}>
-      <View style={styles.iconRow}>
-        <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
-        <View style={styles.iconTextContainer}>
-          <Text style={styles.iconText}>{restaurant.name}</Text>
-          <Text style={styles.iconSubText}>{restaurant.cuisine}</Text>
-          <Text style={styles.iconSubText}>{restaurant.location}</Text>
-          <Text style={styles.iconSubText}>Rating: {restaurant.rating}</Text>
-        </View>
-        <Ionicons name="chevron-forward-outline" size={24} color="#ff82b2" />
+const renderRow = (restaurant) => (
+  <TouchableOpacity onPress={() => onIconPress(restaurant)}>
+    <LinearGradient
+      colors={['#efe4f5', '#e7baff']}
+      start={[0, 0]}
+      end={[1, 1]}
+      style={styles.iconRow}
+    >
+      <Image source={{ uri: restaurant.photo }} style={styles.iconImage} />
+      <View style={styles.iconTextContainer}>
+        <Text style={styles.iconText}>{restaurant.name}</Text>
+        <Text style={styles.iconSubText}>{restaurant.cuisine}</Text>
+        <Text style={styles.iconSubText}>{restaurant.location}</Text>
+        <Text style={styles.iconSubText}>Rating: {restaurant.rating}</Text>
       </View>
-    </TouchableOpacity>
-  );
+      <Ionicons name="chevron-forward-outline" size={24} color="#ff82b2" />
+    </LinearGradient>
+  </TouchableOpacity>
+);
 
   const birminghamRestaurants = halalRestaurantData.Alabama.Birmingham;
 
@@ -166,7 +172,7 @@ const BrowseScreen = () => {
       style={styles.userLocationButtonContainer}
       onPress={animateToUserLocation}
       >
-        <Ionicons name="locate-sharp" size={30} color="blue" />
+        <Ionicons name="locate-sharp" size={30} color="#ff82b2" />
         </TouchableOpacity>
     )}
       {region ? (
@@ -207,11 +213,7 @@ const BrowseScreen = () => {
           <View
             style={[
               style,
-              {
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                backgroundColor: '#bbd1ed',
-              },
+              styles.bottomSheetBackground,
             ]}
           />
         )}
@@ -228,96 +230,108 @@ const BrowseScreen = () => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  searchBarContainer: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 90,
-    left: 0,
-    right: 0,
-    zIndex: 1,
-    alignItems: 'center',
-  },
-  scrollView: {
-    paddingBottom: 20,
-  },
-  map: {
-    flex: 1,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 8,
-    borderRadius: 50,
-    backgroundColor: '#efe4f5', 
-    padding: 30,
-  },
-  iconImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  iconTextContainer: {
-    flex: 1,
-    marginLeft: 20,
-  },
-  iconText: {
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  iconSubText: {
-    color: '#999999',
-  },
-  markerContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 5,
-    borderColor: 'black',
-    borderWidth: 1,
-  },
-  markerImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  markerText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 5,
-  },
-  searchButtonContainer: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    zIndex: 1,
-  },
-  userLocationButtonContainer: {
-    position: 'absolute',
-    top: 130, // Adjust this value as needed
-    right: 20,
-    zIndex: 1,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    container: {
+      flex: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  
-    elevation: 5,
-  },
-  
-});
+    searchBarContainer: {
+      backgroundColor: 'transparent',
+      position: 'absolute',
+      top: 90,
+      left: 0,
+      right: 0,
+      zIndex: 1,
+      alignItems: 'center',
+    },
+    scrollView: {
+        paddingBottom: 120,
+        paddingHorizontal: 8, // Add this line to create gaps on the left and right sides
+      },
+    map: {
+      flex: 1,
+    },
+    bottomSheetBackground: {
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: '#bbd1ed',
+      paddingHorizontal: 10,
+      paddingVertical: 20,
+      width: '100%',
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    iconRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 8,
+        borderRadius: 50, // Increase this value to make the container more curvy
+        backgroundColor: '#efe4f5', 
+        padding: 20, // Reduce this value to make the container smaller
+      },
+      iconImage: {
+        width: 30, // Reduce this value to make the image smaller
+        height: 30, // Reduce this value to make the image smaller
+        borderRadius: 15, // Reduce this value to match the image size
+      },
+    iconTextContainer: {
+      flex: 1,
+      marginLeft: 20,
+    },
+    iconText: {
+      fontWeight: 'bold',
+      fontSize: 18,
+      color: '#4e70ab',
+    },
+    iconSubText: {
+      color: '#999999',
+    },
+    markerContainer: {
+      flexDirection: 'row',
+      backgroundColor: 'white',
+      borderRadius: 5,
+      padding: 5,
+      borderColor: 'black',
+      borderWidth: 1,
+    },
+    markerImage: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+    },
+    markerText: {
+      fontWeight: 'bold',
+      fontSize: 16,
+      marginLeft: 5,
+    },
+    searchButtonContainer: {
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+      zIndex: 1,
+    },
+    userLocationButtonContainer: {
+        position: 'absolute',
+        top: 130, // Adjust this value as needed
+        right: 20,
+        zIndex: 1,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#f5dff0', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      
+        elevation: 5,
+      },
+  });
 
 export default BrowseScreen;
 
