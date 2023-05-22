@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 const AnimatedIcon = ({ name, color, size, focused }) => {
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: focused ? withSpring(-5) : 0 }],
+      transform: [{ translateY: focused ? withSpring(-6) : 0 }],
     };
   });
 
@@ -74,7 +74,7 @@ const TabNavigator = () => {
           marginTop: 6,
         },
         tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: 'gray', //8871cc
         tabBarButton: (props) => (
           <TouchableOpacity onPress={() => { handleTabPress(); props.onPress(); }}>
             <View style={[props.style, styles.iconContainer]}>
@@ -94,7 +94,7 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
     shadow: {
-      shadowColor: '#7F5DF0',
+      shadowColor: '#7F5DF0', //#88fc90
       shadowOffset: {
         width: 0,
         height: 10,
@@ -110,6 +110,3 @@ const styles = StyleSheet.create({
   
   export default TabNavigator;
   
-
-
-

@@ -12,89 +12,6 @@ import PropTypes from 'prop-types';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
-const fixedCardHeight = 220;
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const fixedCardWidth = SCREEN_WIDTH / 1.86;
-const spacing = 20; // Spacing between restaurant cards
-
-const renderRestaurant = ({ item, index, scrollX, fixedCardWidth, spacing, selectedRestaurantIndex, onIconPress }) => {
-    const inputRange = [
-      (index - 1) * (fixedCardWidth + spacing),
-      (index - 1) * (fixedCardWidth + spacing),
-      index * (fixedCardWidth + spacing),
-      (index + 1) * (fixedCardWidth + spacing),
-      (index + 2) * (fixedCardWidth + spacing),
-    ];
-  
-    const opacity = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.5, 0.8, 1, 0.8, 0.5],
-      extrapolate: 'clamp',
-    });
-  
-    const scale = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.2, 0.5, 1, 0.5, 0.5],
-      extrapolate: 'clamp',
-    });
-  
-    const isSelected = selectedRestaurantIndex === index;
-  
-    return (
-      <TouchableOpacity onPress={() => onIconPress(item, index)}>
-        <Animated.View
-          key={item.id}
-          style={{
-            ...styles.restaurantCard,
-            width: fixedCardWidth,
-            height: fixedCardHeight,
-            margin: spacing / 2,
-            transform: [{ scale }],
-            opacity,
-            borderColor: isSelected ? '#42f55a' : 'transparent',
-            borderWidth: isSelected ? 2 : 0,
-          }}
-        >
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: item.photo }} style={styles.restaurantImage} />
-          </View>
-          <View style={styles.restaurantInfoContainer}>
-            <Text style={styles.restaurantName}>{item.name}</Text>
-            <Text style={styles.restaurantCuisine}>{item.cuisine}</Text>
-            <Text style={styles.restaurantLocation}>{item.location}</Text>
-            <Text style={styles.restaurantRating}>Rating: {item.rating}</Text>
-          </View>
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
-  
-  
-
-const renderMarker = (birminghamRestaurants, selectedRestaurantIndex, onIconPress) => {
-  return birminghamRestaurants.map((restaurant, index) => (
-    <Marker
-      key={index}
-      coordinate={{
-        latitude: restaurant.latitude,
-        longitude: restaurant.longitude,
-      }}
-      title={restaurant.name}
-      description={restaurant.cuisine}
-      onPress={() => onIconPress(restaurant, index)}
-    >
-      <FontAwesome
-        name="cutlery"
-        size={30}
-        color={selectedRestaurantIndex === index ? 'red' : 'black'}
-      />
-    </Marker>
-  ));
-};
-
-const triggerHapticFeedback = async () => {
-  await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-};
 
 const BrowseScreen = () => {
   const [region, setRegion] = useState(null);
@@ -106,18 +23,19 @@ const BrowseScreen = () => {
     const listenerId = scrollX.addListener(({ value }) => {
       const newValue = Math.floor(value / (fixedCardWidth + spacing));
       const oldValue = Math.floor(prevScrollX / (fixedCardWidth + spacing));
-
+  
       if (newValue > oldValue) {
         triggerHapticFeedback();
       }
-
+  
       prevScrollX = value;
     });
-
+  
     return () => {
       scrollX.removeListener(listenerId);
     };
   }, []);
+  
 
   useEffect(() => {
     if (selectedRestaurantIndex !== null && restaurantScrollViewRef.current) {
@@ -214,19 +132,102 @@ const BrowseScreen = () => {
     setSelectedRestaurant(restaurant);
     setSelectedRestaurantIndex(index);
     animateToRestaurant(restaurant);
-
+  
     if (restaurantScrollViewRef.current) {
       const screenHalfWidth = Dimensions.get('window').width / 2;
       const scrollToX = (fixedCardWidth + spacing) * index - screenHalfWidth + fixedCardWidth / 2;
-
+  
       restaurantScrollViewRef.current.scrollToOffset({
         offset: scrollToX,
         animated: true,
       });
     }
   };
+  
+  
+
+  const fixedCardHeight = 220;
+  const fixedCardWidth = Dimensions.get('window').width / 1.8;
+  const spacing = 2; // Spacing between restaurant cards
+
+  const renderRestaurant = ({ item, index }) => {
+    const inputRange = [
+      (index - 1) * (fixedCardWidth + spacing),
+      index * (fixedCardWidth + spacing),
+      (index + 1) * (fixedCardWidth + spacing),
+    ];
+  
+    const opacity = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.3, 1, 0.3],
+      extrapolate: 'clamp',
+    });
+  
+    const scale = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.85, 1, 0.85],
+      extrapolate: 'clamp',
+    });
+  
+    const isSelected = selectedRestaurantIndex === index;
+  
+    return (
+      <TouchableOpacity onPress={() => onIconPress(item, index)}>
+        <Animated.View
+          key={item.id}
+          style={{
+            ...styles.restaurantCard,
+            width: fixedCardWidth,
+            height: fixedCardHeight,
+            margin: spacing / 2,
+            transform: [{ scale }],
+            opacity,
+            borderColor: isSelected ? '#42f55a' : 'transparent',
+            borderWidth: isSelected ? 2 : 0,
+          }}
+        >
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.photo }} style={styles.restaurantImage} />
+        </View>
+        <View style={styles.restaurantInfoContainer}>
+          <Text style={styles.restaurantName}>{item.name}</Text>
+          <Text style={styles.restaurantCuisine}>{item.cuisine}</Text>
+          <Text style={styles.restaurantLocation}>{item.location}</Text>
+          <Text style={styles.restaurantRating}>Rating: {item.rating}</Text>
+        </View>
+      </Animated.View>
+      </TouchableOpacity>
+    );
+  };
+  
+  
 
   const birminghamRestaurants = halalRestaurantData.Alabama.Birmingham;
+
+  const renderMarker = () => {
+    return birminghamRestaurants.map((restaurant, index) => (
+      <Marker
+        key={index}
+        coordinate={{
+          latitude: restaurant.latitude,
+          longitude: restaurant.longitude,
+        }}
+        title={restaurant.name}
+        description={restaurant.cuisine}
+        onPress={() => onIconPress(restaurant, index)}
+      >
+        <FontAwesome
+          name="cutlery"
+          size={30}
+          color={selectedRestaurantIndex === index ? 'red' : 'black'}
+        />
+      </Marker>
+    ));
+  };
+
+  const triggerHapticFeedback = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  };
 
   const carouselRef = useRef(null);
 
@@ -262,7 +263,7 @@ const BrowseScreen = () => {
           initialRegion={region}
           onRegionChangeComplete={onMapRegionChangeComplete}
         >
-          {renderMarker(birminghamRestaurants, selectedRestaurantIndex, onIconPress)}
+          {renderMarker()}
           {userLocation && (
             <Marker
               coordinate={{
@@ -284,39 +285,38 @@ const BrowseScreen = () => {
         </View>
       )}
       <View style={styles.restaurantScrollViewContainer}>
-        <Animated.FlatList
-          ref={restaurantScrollViewRef}
-          data={birminghamRestaurants}
-          renderItem={({ item, index }) =>
-            renderRestaurant({ item, index, scrollX, fixedCardWidth, spacing, selectedRestaurantIndex, onIconPress })
-          }
-          keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          snapToInterval={fixedCardWidth + spacing}
-          decelerationRate='fast'
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    x: scrollX,
-                  },
-                },
-              },
-            ],
-            { useNativeDriver: false }
-          )}
-          scrollEventThrottle={16}
-          contentContainerStyle={{
-            paddingLeft: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
-            paddingRight: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
-          }}
-        />
+<Animated.FlatList
+  ref={restaurantScrollViewRef}
+  data={birminghamRestaurants}
+  renderItem={renderRestaurant}
+  keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  snapToInterval={fixedCardWidth + spacing}
+  decelerationRate='fast'
+  onScroll={Animated.event(
+    [
+      {
+        nativeEvent: {
+          contentOffset: {
+            x: scrollX,
+          },
+        },
+      },
+    ],
+    { useNativeDriver: false }
+  )}
+  scrollEventThrottle={16}
+  contentContainerStyle={{
+    paddingLeft: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
+    paddingRight: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
+  }}
+/>
       </View>
     </View>
   );
 };
+  
 
 const styles = StyleSheet.create({
   container: {
