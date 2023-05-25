@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, FlatList, View, Text, Dimensions, Image, ScrollView, Button} from 'react-native';
+import SearchBar from '../search/SearchBar';
 import Animated, {
   Extrapolate,
   interpolate,

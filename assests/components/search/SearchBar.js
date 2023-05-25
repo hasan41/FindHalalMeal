@@ -8,8 +8,8 @@ const SearchBar = () => {
     <View style={styles.container}>
       <View style={styles.searchBox}>
         <LinearGradient
-          colors={['#fcc5dc', '#ffd3c7']}
-          start={[0, 0]}
+          colors={['#fcc5dc', '#E5BEEC']}
+          start={[0, 1]}
           end={[1, 0]}
           style={styles.gradient}
         >

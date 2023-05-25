@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import SearchBar from '../bottom-nav-bar/SearchBar';
+import SearchBar from '../search/SearchBar';
 
 const ICON_SIZE = 48;
 const RECTANGLE_ICON_SIZE = 80; // New constant for rectangle icons size
@@ -239,8 +239,8 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#5a5e56',
       position: 'absolute', // Set position to absolute
-      top: 4, // Align the label to the top left
-      left: 4,
+      top: 8, // Align the label to the top left
+      left: 8,
     },
     scrollContent: {
       paddingBottom: 100, // Add some padding at the bottom

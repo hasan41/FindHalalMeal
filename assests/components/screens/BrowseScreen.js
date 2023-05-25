@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Animated, Dimensions, ViewPropTypes } from 'react-native';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
-import SearchBar from '../bottom-nav-bar/SearchBar';
+import SearchBar from '../search/SearchBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
@@ -12,31 +12,33 @@ import PropTypes from 'prop-types';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
-const fixedCardHeight = 220;
+const fixedCardHeight = 180;
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const fixedCardWidth = SCREEN_WIDTH / 1.86;
-const spacing = 20; // Spacing between restaurant cards
+const fixedCardWidth = SCREEN_WIDTH / 2.2;
+const spacing = 10; // Spacing between restaurant cards
 
 const renderRestaurant = ({ item, index, scrollX, fixedCardWidth, spacing, selectedRestaurantIndex, onIconPress }) => {
-    const inputRange = [
-      (index - 1) * (fixedCardWidth + spacing),
-      (index - 1) * (fixedCardWidth + spacing),
-      index * (fixedCardWidth + spacing),
-      (index + 1) * (fixedCardWidth + spacing),
-      (index + 2) * (fixedCardWidth + spacing),
-    ];
   
-    const opacity = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.5, 0.8, 1, 0.8, 0.5],
-      extrapolate: 'clamp',
-    });
+  const inputRange = [
+    (index - 2) * (fixedCardWidth + spacing),
+    (index - 1) * (fixedCardWidth + spacing),
+    index * (fixedCardWidth + spacing),
+    (index + 1) * (fixedCardWidth + spacing),
+    (index + 2) * (fixedCardWidth + spacing),
+  ];
   
-    const scale = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.2, 0.5, 1, 0.5, 0.5],
-      extrapolate: 'clamp',
-    });
+  const opacity = scrollX.interpolate({
+    inputRange,
+    outputRange: [0.5, 0.8, 1, 0.8, 0.5],
+    extrapolate: 'clamp',
+  });
+  
+  const scale = scrollX.interpolate({
+    inputRange,
+    outputRange: [0.5, 0.8, 1, 0.8, 0.5],
+    extrapolate: 'clamp',
+  });
+  
   
     const isSelected = selectedRestaurantIndex === index;
   
@@ -86,7 +88,7 @@ const renderMarker = (birminghamRestaurants, selectedRestaurantIndex, onIconPres
       <FontAwesome
         name="cutlery"
         size={30}
-        color={selectedRestaurantIndex === index ? 'red' : 'black'}
+        color={selectedRestaurantIndex === index ? '#42f55a' : '#954aff'}
       />
     </Marker>
   ));
@@ -309,9 +311,9 @@ const BrowseScreen = () => {
           )}
           scrollEventThrottle={16}
           contentContainerStyle={{
-            paddingLeft: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
-            paddingRight: Dimensions.get('window').width / 2 - fixedCardWidth / 2,
-          }}
+            paddingLeft: (SCREEN_WIDTH - fixedCardWidth) / 2,
+            paddingRight: (SCREEN_WIDTH - fixedCardWidth) / 2,
+          }}          
         />
       </View>
     </View>
@@ -348,21 +350,21 @@ const styles = StyleSheet.create({
   },
   restaurantScrollViewContainer: {
     position: 'absolute',
-    bottom: 150,  // Decrease this value to lift up the restaurant cards
+    bottom: 120,  // Decrease this value to lift up the restaurant cards
     left: 0,
     right: 0,
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   restaurantCard: {
     backgroundColor: '#F2E9FF',
     borderRadius: 40,
     padding: 10,
-    width: 280,
-    height: 250,
+    width: fixedCardWidth, // Use the fixedCardWidth variable instead of a static value
+    height: fixedCardHeight, // Use the fixedCardHeight variable instead of a static value
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'visible',
-    marginRight: 10,
+    marginHorizontal: spacing / 2, // Adjust marginHorizontal instead of marginRight
     shadowColor: 'green',
     shadowOffset: {
       width: 0,
@@ -374,37 +376,38 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'absolute',
-    top: -40, // Adjust this value as needed
-    height: 80,
-    width: 80,
+    top: -20, // Adjust this value as needed
+    height: 56,
+    width: 56,
     borderRadius: 50,
     overflow: 'visible',
     zIndex: 1,
+    alignSelf: 'center', // Center the image container horizontally
   },
   restaurantImage: {
-    height: '80%', // Adjust the percentage as needed
+    height: '100%', // Adjust the percentage as needed
     width: '100%',
     borderRadius: 50,
   },
   restaurantName: {
-    fontSize: 18, // Increased from 16 to 18
+    fontSize: 14, // Increased from 16 to 18
     fontWeight: 'bold',
-    color: '#333',
+    color: '#b175ff',
     marginTop: 10,
     textAlign: 'center', // Align the text in the center
   },
   restaurantCuisine: {
-    fontSize: 16, // Increased from 14 to 16
+    fontSize: 10, // Increased from 14 to 16
     color: '#666',
     textAlign: 'center', // Align the text in the center
   },
   restaurantLocation: {
-    fontSize: 16, // Increased from 14 to 16
+    fontSize: 10, // Increased from 14 to 16
     color: '#666',
     textAlign: 'center', // Align the text in the center
   },
   restaurantRating: {
-    fontSize: 16, // Increased from 14 to 16
+    fontSize: 10, // Increased from 14 to 16
     color: 'green',
     marginTop: 5,
     textAlign: 'center', // Align the text in the center
@@ -442,14 +445,6 @@ const styles = StyleSheet.create({
   iconSubText: {
     color: '#999999',
   },
-  markerContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 5,
-    borderColor: 'black',
-    borderWidth: 1,
-  },
   markerImage: {
     width: 40,
     height: 40,
@@ -470,18 +465,18 @@ const styles = StyleSheet.create({
   userLocationButtonContainer: {
     position: 'absolute',
     top: 130,
-    right: 20,
+    right: 18,
     zIndex: 1,
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 25,
     backgroundColor: '#f5dff0',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: 'black',
+    shadowColor: '#26ff4e',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 4,
+      height: 4,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,

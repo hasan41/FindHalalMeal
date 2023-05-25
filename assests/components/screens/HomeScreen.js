@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import SearchBar from '../bottom-nav-bar/SearchBar';
+import SearchBar from '../search/SearchBar';
 
 const ICONS = [
   { id: 0, name: 'ios-restaurant', label: 'Food' },
