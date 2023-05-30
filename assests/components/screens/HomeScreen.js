@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList, Animated, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import SearchBar from '../search/SearchBar';
+
+import restaurantData from '../../../Halal_restaurant_data.json';
 
 const ICONS = [
   { id: 0, name: 'ios-restaurant', label: 'Food' },
@@ -14,7 +17,45 @@ const ICONS = [
 ];
 
 const HomeScreen = () => {
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
   const [selectedIcon, setSelectedIcon] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+      const nearbyRestaurants = fetchRestaurants(location.coords.latitude, location.coords.longitude);
+      setRestaurants(nearbyRestaurants);
+
+    })();
+  }, []);
+
+  const fetchRestaurants = (latitude, longitude) => {
+    // Change the range here to adjust the radius
+    const latRange = [latitude - 0.05, latitude + 0.05]; // 0.05 is the radius
+    const lonRange = [longitude - 0.05, longitude + 0.05];
+  
+    const nearbyRestaurants = restaurantData.Georgia.AtlantaMetro.filter(restaurant => 
+      restaurant.latitude >= latRange[0] &&
+      restaurant.latitude <= latRange[1] &&
+      restaurant.longitude >= lonRange[0] &&
+      restaurant.longitude <= lonRange[1]
+    );
+  
+    // Returns an array of restaurants that are within the given latitude and longitude range
+    return nearbyRestaurants;
+  };
+
   const animations = ICONS.reduce((acc, _, index) => {
     acc[index] = new Animated.Value(1);
     return acc;
@@ -80,11 +121,31 @@ const HomeScreen = () => {
         />
       </View>
       <View style={styles.line} />
-      <View style={styles.contentContainer}>
-        <Text>Home Screen</Text>
-        <Button
-          title= "Click Here"
-          onPress={() => alert('Button Clicked')}
+      <View style={styles.featuredTitleContainer}>
+        <Text style={styles.featuredText}>Featured Restaurant</Text>
+      </View>
+      <View style={styles.featuredContainer}>
+        <FlatList
+          data={restaurants}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.restaurantContainer}>
+              <Image style={styles.restaurantImage} source={{ uri: item.photo }} />
+              <View style={styles.ratingContainer}>
+                <Text style={styles.ratingText}>{'⭐ ' + item.rating}</Text>
+              </View>
+              <Text style={styles.restaurantName}>{item.name}</Text>
+              <View style={styles.cuisineContainer}>
+                {item.cuisine.split(',').map((cuisine, index) => (
+                  <View key={index} style={styles.cuisineBox}>
+                    <Text style={styles.cuisineText}>{cuisine.trim()}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}                         
         />
       </View>
     </View>
@@ -160,6 +221,71 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  featuredTitleContainer: {
+    marginBottom: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    marginTop: 20,
+    marginLeft: 20,
+  },
+  featuredContainer: {
+    marginBottom: 10,
+  },
+  featuredText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  restaurantContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start', // align items to the left
+    marginHorizontal: 10,
+    backgroundColor: '#E5BEEC',
+    borderRadius: 20, 
+    padding: 10, // Add back the padding
+    height: 220,
+    width: 280, // Increase width of restaurant container
+  },
+  restaurantImage: {
+    height: 130,
+    width: '100%',
+    borderRadius: 20, // Keep the original border radius
+  },  
+  ratingContainer: {
+    position: 'absolute',
+    top: 14,
+    left: 14,
+    backgroundColor: 'tomato',
+    borderRadius: 20,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  ratingText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  restaurantName: {
+    marginTop: 10,
+    color: 'black',
+    textAlign: 'left', // align text to the left
+    fontWeight: 'bold',
+  },
+  cuisineContainer: {
+    flexDirection: 'row', // This will layout cuisines horizontally
+    marginTop: 5,
+    alignItems: 'flex-start', // align items to the left
+  },
+  cuisineBox: {
+    backgroundColor: 'tomato',
+    borderRadius: 5,
+    padding: 5,
+    margin: 5,
+  },
+  cuisineText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 12,
   },
 });
 
