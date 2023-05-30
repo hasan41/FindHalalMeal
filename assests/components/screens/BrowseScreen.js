@@ -200,18 +200,41 @@ const BrowseScreen = () => {
   const [searchButtonVisible, setSearchButtonVisible] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
 
-  const animateToUserLocation = () => {
-    if (mapRef.current && userLocation) {
+  const animateToUserLocation = async () => {
+    if (mapRef.current) {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Permission to access location was denied');
+        return;
+      }
+  
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation(location.coords);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+      });
+  
       mapRef.current.animateCamera(
         {
           center: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
           },
           zoom: 15,
         },
         1000
       );
+  
+      const fetchedRestaurants = await fetchRestaurants(location.coords.latitude, location.coords.longitude);
+      if (fetchedRestaurants.length === 0) {
+        setNoRestaurantsAvailable(true);
+      } else {
+        setNoRestaurantsAvailable(false);
+        setRestaurants(fetchedRestaurants);
+      }
     }
   };
 
@@ -294,17 +317,15 @@ const BrowseScreen = () => {
           <Text>No Restaurants Available</Text>
         </View>
       }
-      {isUserOutOfLocation && (
-        <TouchableOpacity
-          style={styles.userLocationButtonContainer}
-          onPress={() => {
-            animateToUserLocation();
-            triggerHapticFeedback();
-          }}
-        >
-          <Ionicons name="locate-sharp" size={30} color="#ff82b2" />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+      style={styles.userLocationButtonContainer}
+      onPress={() => {
+        animateToUserLocation();
+        triggerHapticFeedback();
+      }}
+      >
+        <Ionicons name="locate-sharp" size={30} color="#ff82b2" />
+      </TouchableOpacity>
       {region ? (
         <MapView
           ref={mapRef}
