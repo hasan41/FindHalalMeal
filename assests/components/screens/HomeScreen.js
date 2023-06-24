@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList, Animated, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import SearchBar from '../search/SearchBar';
+import RestaurantSkeleton from '../skeletonscreen/RestaurantSkeleton';
 
 import restaurantData from '../../../Halal_restaurant_data.json';
 
 const ICONS = [
-  { id: 0, name: 'ios-restaurant', label: 'Food' },
-  { id: 1, name: 'ios-cart', label: 'Grocery' },
-  { id: 2, name: 'ios-alarm', label: 'Cool' },
-  { id: 3, name: 'ios-medical', label: 'Medicine' },
-  { id: 4, name: 'ios-pizza', label: 'Pizza'},
-  { id: 5, name: 'ios-ice-cream', label: 'Dessert'},
+  { id: 0, name: 'food', label: 'Food' },
+  { id: 1, name: 'hamburger', label: 'Burger' },
+  { id: 2, name: 'french-fries', label: 'Fries' },
+  { id: 3, name: 'pizza', label: 'Pizza' },
+  { id: 4, name: 'coffee', label: 'Coffee'},
+  { id: 5, name: 'ice-cream', label: 'Dessert'},
+  { id: 6, name: 'fruit-watermelon', label: 'Shakes'},
+  { id: 7, name: 'food-steak', label: 'Steak'},
   // Add more icons here
 ];
 
@@ -30,31 +33,39 @@ const HomeScreen = () => {
         setErrorMsg('Permission to access location was denied');
         return;
       }
+      
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
 
-      const nearbyRestaurants = fetchRestaurants(location.coords.latitude, location.coords.longitude);
+
+      const nearbyRestaurants = await fetchRestaurants(location.coords.latitude, location.coords.longitude);
       setRestaurants(nearbyRestaurants);
+
 
     })();
   }, []);
 
-  const fetchRestaurants = (latitude, longitude) => {
+  const fetchRestaurants = async (latitude, longitude) => {
+    // Simulate an asynchronous delay using setTimeout
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  
     // Change the range here to adjust the radius
-    const latRange = [latitude - 0.05, latitude + 0.05]; // 0.05 is the radius
+    const latRange = [latitude - 0.05, latitude + 0.05];
     const lonRange = [longitude - 0.05, longitude + 0.05];
   
-    const nearbyRestaurants = restaurantData.Georgia.AtlantaMetro.filter(restaurant => 
-      restaurant.latitude >= latRange[0] &&
-      restaurant.latitude <= latRange[1] &&
-      restaurant.longitude >= lonRange[0] &&
-      restaurant.longitude <= lonRange[1]
+    const nearbyRestaurants = restaurantData.Georgia.AtlantaMetro.filter(
+      (restaurant) =>
+        restaurant.latitude >= latRange[0] &&
+        restaurant.latitude <= latRange[1] &&
+        restaurant.longitude >= lonRange[0] &&
+        restaurant.longitude <= lonRange[1]
     );
   
     // Returns an array of restaurants that are within the given latitude and longitude range
     return nearbyRestaurants;
   };
+  
 
   const animations = ICONS.reduce((acc, _, index) => {
     acc[index] = new Animated.Value(1);
@@ -93,11 +104,33 @@ const HomeScreen = () => {
       >
         <View style={[styles.imageContainer, { backgroundColor: item.id === selectedIcon ? '#ff82b2' : '#d3c5fa' }]}>
           <Animated.View style={{ transform: [{ rotate: rotateAnimation }] }}>
-            <Ionicons name={item.name} size={24} color={item.id === selectedIcon ? '#ffcbc2' : '#ff82b2'} />
+            <MaterialCommunityIcons name={item.name} size={24} color={item.id === selectedIcon ? '#ffcbc2' : '#ff82b2'} />
           </Animated.View>
         </View>
         <Text style={styles.iconLabel}>{item.label}</Text>
       </TouchableOpacity>
+    );
+  };
+
+  const renderRestaurantItem = ({ item }) => {
+    if (!item) {
+      return <RestaurantSkeleton />;
+    }
+    return (
+      <View style={styles.restaurantContainer}>
+        <Image style={styles.restaurantImage} source={{ uri: item.photo }} />
+        <View style={styles.ratingContainer}>
+          <Text style={styles.ratingText}>{'⭐ ' + item.rating}</Text>
+        </View>
+        <Text style={styles.restaurantName}>{item.name}</Text>
+        <View style={styles.cuisineContainer}>
+          {item.cuisine.split(',').map((cuisine, index) => (
+            <View key={index} style={styles.cuisineBox}>
+              <Text style={styles.cuisineText}>{cuisine.trim()}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
     );
   };
 
@@ -125,27 +158,12 @@ const HomeScreen = () => {
         <Text style={styles.featuredText}>Featured Restaurant</Text>
       </View>
       <View style={styles.featuredContainer}>
-        <FlatList
+      <FlatList
           data={restaurants}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.restaurantContainer}>
-              <Image style={styles.restaurantImage} source={{ uri: item.photo }} />
-              <View style={styles.ratingContainer}>
-                <Text style={styles.ratingText}>{'⭐ ' + item.rating}</Text>
-              </View>
-              <Text style={styles.restaurantName}>{item.name}</Text>
-              <View style={styles.cuisineContainer}>
-                {item.cuisine.split(',').map((cuisine, index) => (
-                  <View key={index} style={styles.cuisineBox}>
-                    <Text style={styles.cuisineText}>{cuisine.trim()}</Text>
-                  </View>
-                ))}
-              </View>
-            </View>
-          )}                         
+          renderItem={renderRestaurantItem}
         />
       </View>
     </View>
