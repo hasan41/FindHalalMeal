@@ -59,16 +59,18 @@ const TabNavigator = () => {
           right: 10,
           elevation: 0,
           backgroundColor: '#f5dff0',
-          borderRadius: 30,
+          borderRadius: 50,
           height: 90,
           ...styles.shadow,
-          borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
+          borderTopLeftRadius: 50,
+          borderTopRightRadius: 50,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: 'bold',
           marginBottom: 3,
+          marginLeft: 4,  // Add marginLeft
+          marginRight: 4, // Add marginRight
         },
         tabBarIconStyle: {
           marginTop: 6,
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
     iconContainer: {
-      marginHorizontal: 25,
+      marginHorizontal: 22,
     },
   });
   
