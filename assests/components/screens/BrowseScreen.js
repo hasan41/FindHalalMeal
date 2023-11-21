@@ -154,8 +154,8 @@ const BrowseScreen = () => {
   
   const fetchRestaurants = async (latitude, longitude) => {
     // Change the range here to adjust the radius
-    const latRange = [latitude - 0.05, latitude + 0.05]; // 0.05 is the radius
-    const lonRange = [longitude - 0.05, longitude + 0.05];
+    const latRange = [latitude - 0.09, latitude + 0.09]; // 0.05 is the radius
+    const lonRange = [longitude - 0.09, longitude + 0.09];
   
     const nearbyRestaurants = halalRestaurantData.Georgia.AtlantaMetro.filter(restaurant => 
       restaurant.latitude >= latRange[0] &&
