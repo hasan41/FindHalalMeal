@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList, Animated, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import SearchBar from '../search/SearchBar';
 import RestaurantSkeleton from '../skeletonscreen/RestaurantSkeleton';
+import NavBar from '../top-nav-bar/TopNavBar';
+import LocationIcon from '../top-nav-bar-screens/LocationIcon';
+import BottomSheetComponent from '../AddressModal/BottomSheet'
 
 import restaurantData from '../../../Halal_restaurant_data.json';
 
@@ -25,6 +28,7 @@ const HomeScreen = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [selectedIcon, setSelectedIcon] = useState(null);
+  const bottomSheetRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -51,8 +55,8 @@ const HomeScreen = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
   
     // Change the range here to adjust the radius
-    const latRange = [latitude - 0.05, latitude + 0.05];
-    const lonRange = [longitude - 0.05, longitude + 0.05];
+    const latRange = [latitude - 0.09, latitude + 0.09];
+    const lonRange = [longitude - 0.09, longitude + 0.09];
   
     const nearbyRestaurants = restaurantData.Georgia.AtlantaMetro.filter(
       (restaurant) =>
@@ -140,6 +144,11 @@ const HomeScreen = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Find Halal</Text>
       </View>
+      <View style={styles.topBarContainer}>
+      <LocationIcon bottomSheetRef={bottomSheetRef} />
+      <NavBar />
+    </View>
+      {/* ... (other components) */}
       <View style={styles.searchBarContainer}>
         <SearchBar />
       </View>
@@ -166,6 +175,7 @@ const HomeScreen = () => {
           renderItem={renderRestaurantItem}
         />
       </View>
+      <BottomSheetComponent bottomSheetRef={bottomSheetRef} />
     </View>
   );
 };
@@ -173,7 +183,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffdfd9', //bbd1ed
+    backgroundColor: '#E5D4FF', //E5D4FF
   },
   headerContainer: {
     alignItems: 'flex-start',
@@ -186,6 +196,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 10,
+  },
+  topBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 2,
+    marginBottom: 1,
   },
   searchBarContainer: {
     marginTop: 20,
@@ -225,14 +242,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   line: {
-    borderBottomColor: 'black',
+    borderBottomColor: '#5a5e56',
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginVertical: 10,
     width: '100%',
   },
   iconLabel: {
     marginTop: 50,
-    color: 'black',
+    color: '#5a5e56',
     textAlign: 'center',
   },
   contentContainer: {
