@@ -2,47 +2,19 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../search/SearchBar';
+import { EXPLORE_ICONS, EXPLORE_RECTANGLE_ICONS } from '../../../assests/constants'
 
 const ICON_SIZE = 48;
-const RECTANGLE_ICON_SIZE = 80; // New constant for rectangle icons size
-
-const icons = [
-  { name: 'pizza', label: 'Pizza' },
-  { name: 'hamburger', label: 'Burger' },
-  { name: 'food-halal', label: 'Halal' },
-  { name: 'cake', label: 'Cake' },
-  { name: 'cookie', label: 'Cookie' },
-  { name: 'ice-cream', label: 'Ice Cream' },
-  { name: 'coffee', label: 'Coffee' },
-  { name: 'beer', label: 'Beer' },
-  { name: 'food-apple', label: 'Apple' },
-  { name: 'food-turkey', label: 'Turkey' },
-  { name: 'food-kosher', label: 'Kosher' },
-  { name: 'food-steak', label: 'Steak' },
-];
-
-const rectangleIcons = [
-  { name: 'hamburger', label: 'Burgers' },
-  { name: 'french-fries', label: 'Fries' },
-  { name: 'food-variant', label: 'Dairy' },
-  { name: 'food', label: 'Fast Food' },
-  { name: 'food-fork-drink', label: 'Dinner' },
-  { name: 'food-steak', label: 'Steak' },
-  { name: 'food-croissant', label: 'Sweets' },
-  { name: 'fruit-cherries', label: 'Fruits' },
-  { name: 'ice-cream', label: 'IceCream' },
-  { name: 'food-turkey', label: 'Turkish' },
-  { name: 'food-takeout-box', label: 'Takeout' },
-  { name: 'fruit-watermelon', label: 'Shakes' },
-];
+const RECTANGLE_ICON_SIZE = 80;
 
 
 const ExploreScreen = () => {
-  const rows = Math.floor(icons.length / 4);
-  const lastRowIconsCount = icons.length % 4;
 
-  const rectangleRows = Math.floor(rectangleIcons.length / 2);
-  const lastRectangleRowIconsCount = rectangleIcons.length % 2;
+  const rows = Math.floor(EXPLORE_ICONS.length / 4);
+  const lastRowIconsCount = EXPLORE_ICONS.length % 4;
+
+  const rectangleRows = Math.floor(EXPLORE_RECTANGLE_ICONS.length / 2);
+  const lastRectangleRowIconsCount = EXPLORE_RECTANGLE_ICONS.length % 2;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,7 +31,7 @@ const ExploreScreen = () => {
             <View key={rowIndex} style={styles.row}>
               {[...Array(4)].map((_, colIndex) => {
                 const iconIndex = rowIndex * 4 + colIndex;
-                const icon = icons[iconIndex];
+                const icon = EXPLORE_ICONS[iconIndex];
                 return (
                   <TouchableOpacity key={icon.name} style={styles.iconContainer}>
                     <View style={styles.iconBackground}>
@@ -74,8 +46,8 @@ const ExploreScreen = () => {
           {lastRowIconsCount > 0 && (
             <View style={styles.row}>
               {[...Array(lastRowIconsCount)].map((_, colIndex) => {
-                const iconIndex = icons.length - lastRowIconsCount + colIndex;
-                const icon = icons[iconIndex];
+                const iconIndex = EXPLORE_ICONS.length - lastRowIconsCount + colIndex;
+                const icon = EXPLORE_ICONS[iconIndex];
                 return (
                   <TouchableOpacity key={icon.name} style={styles.iconContainer}>
                     <View style={styles.iconBackground}>
@@ -96,7 +68,7 @@ const ExploreScreen = () => {
             <View key={rowIndex} style={styles.rectangleRow}>
               {[...Array(2)].map((_, colIndex) => {
                 const iconIndex = rowIndex * 2 + colIndex;
-                const icon = rectangleIcons[iconIndex];
+                const icon = EXPLORE_RECTANGLE_ICONS[iconIndex];
                 return (
                   <TouchableOpacity key={icon.name} style={styles.rectangleIconContainer}>
                     <View style={styles.rectangleIconBackground}>
@@ -111,8 +83,8 @@ const ExploreScreen = () => {
           {lastRectangleRowIconsCount > 0 && (
             <View style={styles.rectangleRow}>
               {[...Array(lastRectangleRowIconsCount)].map((_, colIndex) => {
-                const iconIndex = rectangleIcons.length - lastRectangleRowIconsCount + colIndex;
-                const icon = rectangleIcons[iconIndex];
+                const iconIndex = EXPLORE_RECTANGLE_ICONS.length - lastRectangleRowIconsCount + colIndex;
+                const icon = EXPLORE_RECTANGLE_ICONS[iconIndex];
                 return (
                   <TouchableOpacity key={icon.name} style={styles.rectangleIconContainer}>
                     <View style={styles.rectangleIconBackground}>

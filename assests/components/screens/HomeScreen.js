@@ -8,20 +8,9 @@ import NavBar from '../top-nav-bar/TopNavBar';
 import LocationIcon from '../top-nav-bar-screens/LocationIcon';
 import BottomSheetComponent from '../AddressModal/BottomSheet'
 import SortModal from '../search/SortModal';
+import { ICONS, PERMISSION_DENIED_ERROR } from '../../../assests/constants'
 
 import restaurantData from '../../../Halal_restaurant_data.json';
-
-const ICONS = [
-  { id: 0, name: 'food', label: 'Food' },
-  { id: 1, name: 'hamburger', label: 'Burger' },
-  { id: 2, name: 'french-fries', label: 'Fries' },
-  { id: 3, name: 'pizza', label: 'Pizza' },
-  { id: 4, name: 'coffee', label: 'Coffee'},
-  { id: 5, name: 'ice-cream', label: 'Dessert'},
-  { id: 6, name: 'fruit-watermelon', label: 'Shakes'},
-  { id: 7, name: 'food-steak', label: 'Steak'},
-  // Add more icons here
-];
 
 const HomeScreen = () => {
 
@@ -36,7 +25,7 @@ const HomeScreen = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        setErrorMsg(PERMISSION_DENIED_ERROR);
         return;
       }
       
