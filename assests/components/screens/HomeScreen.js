@@ -7,6 +7,7 @@ import RestaurantSkeleton from '../skeletonscreen/RestaurantSkeleton';
 import NavBar from '../top-nav-bar/TopNavBar';
 import LocationIcon from '../top-nav-bar-screens/LocationIcon';
 import BottomSheetComponent from '../AddressModal/BottomSheet'
+import SortModal from '../search/SortModal';
 
 import restaurantData from '../../../Halal_restaurant_data.json';
 
@@ -29,6 +30,7 @@ const HomeScreen = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const bottomSheetRef = useRef(null);
+  const [isSortModalVisible, setSortModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -145,13 +147,24 @@ const HomeScreen = () => {
         <Text style={styles.headerText}>Find Halal</Text>
       </View>
       <View style={styles.topBarContainer}>
-      <LocationIcon bottomSheetRef={bottomSheetRef} />
-      <NavBar />
+        <LocationIcon bottomSheetRef={bottomSheetRef} />
+        <NavBar />
     </View>
-      {/* ... (other components) */}
       <View style={styles.searchBarContainer}>
-        <SearchBar />
+      <SearchBar
+          sortModalVisible={isSortModalVisible}
+          openSortModal={() => setSortModalVisible(true)}
+          isHomeScreen={true} // Pass the isHomeScreen prop
+        />
       </View>
+      {/* Render SortModal conditionally */}
+      {isSortModalVisible && (
+        <SortModal
+          isVisible={isSortModalVisible}
+          onClose={() => setSortModalVisible(false)}
+          // ... other props ...
+        />
+      )}
       <View style={styles.iconsContainer}>
         <FlatList
           data={ICONS}

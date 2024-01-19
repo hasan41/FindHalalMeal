@@ -8,7 +8,7 @@ const CustomBottomSheet = ({ bottomSheetRef }) => {
     <BottomSheet
       ref={bottomSheetRef}
       index={0}
-      snapPoints={['1%', '90%']}
+      snapPoints={['1%', '92%']}
       enablePanDownToClose={true}
       backgroundComponent={() => (
         <View style={styles.bottomSheetBackground} />
@@ -16,11 +16,14 @@ const CustomBottomSheet = ({ bottomSheetRef }) => {
     >
       <View style={styles.sheetContainer}>
         <View style={styles.headerContainer}>
-          <Text style={styles.exploreText}>Explore nearby</Text>
+          <Text style={styles.exploreText}>Addresses</Text>
         </View>
-        <SearchBar />
-        <Text style={styles.sheetTitle}>Addresses</Text>
-        {/* Add your address content here */}
+        <View style={styles.searchContainer}>
+        <SearchBar isBottomSheet={true} />
+        </View>
+        <View style={styles.exploreNearbyContainer}>
+          <Text style={styles.exploreNearbyText}>Explore nearby</Text>
+        </View>
       </View>
     </BottomSheet>
   );
@@ -32,22 +35,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   sheetContainer: {
+    height: 630,
     backgroundColor: '#f5dff0',
     paddingHorizontal: 2,
     paddingTop: 16,
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    borderBottomLeftRadius: 50,
-  },
-  sheetTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 466,
+    borderRadius: 62,
+    alignItems: 'center',
   },
   headerContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'flex-start',
     marginBottom: 10,
   },
@@ -58,6 +54,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
     marginLeft: 30,
+  },
+  searchContainer: {
+    marginBottom: 20, // Adjust as needed
+  },
+  exploreNearbyContainer: {
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+    marginBottom: 10, // Adjust as needed
+  },
+  exploreNearbyText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'left',
   },
 });
 
