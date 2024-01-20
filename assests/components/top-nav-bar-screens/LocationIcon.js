@@ -40,7 +40,7 @@ const LocationIcon = ({ bottomSheetRef }) => {
   return (
     <>
       <TouchableOpacity
-        style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
+        style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 8, paddingTop: 6}}
         onPress={handleLocationPress}
       >
         <Ionicons name="location-outline" size={22} color="tomato" />

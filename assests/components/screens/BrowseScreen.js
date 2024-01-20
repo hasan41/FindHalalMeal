@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Animated, Dimensions, ViewPropTypes } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
 import SearchBar from '../search/SearchBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
@@ -8,7 +8,6 @@ import * as Location from 'expo-location';
 import * as Haptics from 'expo-haptics';
 import { FontAwesome } from 'react-native-vector-icons';
 import Carousel from 'react-native-snap-carousel';
-import PropTypes from 'prop-types';
 import { Alert } from 'react-native';  // Add this import at the top
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
@@ -96,7 +95,13 @@ const renderMarker = (birminghamRestaurants, selectedRestaurantIndex, onIconPres
 };
 
 const triggerHapticFeedback = async () => {
-  await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  console.log("Triggering Haptic Feedback");
+  try {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    console.log("Haptic Feedback triggered successfully");
+  } catch (error) {
+    console.error("Error triggering Haptic Feedback:", error);
+  }
 };
 
 const BrowseScreen = () => {

@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const SearchBar = ({ sortModalVisible, openSortModal, isHomeScreen, isBottomSheet }) => {
 
-  const [isModalVisible, setModalVisible] = useState(false);
+const [isModalVisible, setModalVisible] = useState(false);
 
   const openModal = () => {
     setModalVisible(true);
@@ -15,9 +15,9 @@ const SearchBar = ({ sortModalVisible, openSortModal, isHomeScreen, isBottomShee
     <View style={styles.container}>
       <View style={styles.searchBox}>
         <LinearGradient
-          colors={['#fcc5dc', '#E5BEEC']}
+          colors={['#f7d2e2', '#e484f5']}
           start={[0, 1]}
-          end={[1, 0]}
+          end={[2, 0]}
           style={styles.gradient}
         >
           <FontAwesome name="search" size={18} color="#fc4992" style={styles.iconStyle} />

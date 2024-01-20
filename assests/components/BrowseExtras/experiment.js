@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Animated, Dimensions, ViewPropTypes } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
 import SearchBar from '../bottom-nav-bar/SearchBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
@@ -8,7 +8,6 @@ import * as Location from 'expo-location';
 import * as Haptics from 'expo-haptics';
 import { FontAwesome } from 'react-native-vector-icons';
 import Carousel from 'react-native-snap-carousel';
-import PropTypes from 'prop-types';
 
 import halalRestaurantData from '../../../Halal_restaurant_data.json';
 
