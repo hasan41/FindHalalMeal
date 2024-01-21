@@ -1,0 +1,21 @@
+{
+  "name": "halalapp",
+  "version": "1.0.0",
+  "description": "Backend Server for halalApp",
+  "main": "Express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "HalalApp",
+    "Backend",
+    "server"
+  ],
+  "author": "Raza Agha",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.11.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}

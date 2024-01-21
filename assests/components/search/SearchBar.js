@@ -3,13 +3,62 @@ import { View, TextInput, StyleSheet, Text, TouchableOpacity, Switch } from 'rea
 import { FontAwesome } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 
-const SearchBar = ({ sortModalVisible, openSortModal, isHomeScreen, isBottomSheet }) => {
+const SearchBar = ({ openSortModal, isHomeScreen, isBottomSheet }) => {
+  const [searchQuery, setSearchQuery] = useState('');
 
-const [isModalVisible, setModalVisible] = useState(false);
+  const handleSearch = async () => {
+    try {
+      const url = 'http://10.0.0.18:3000/search';
+      const requestData = {
+        query: searchQuery,
+      };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers you need
+        }
+      };
+  
+      console.log("Sending request to:", url);
+      console.log("Request data:", requestData);
+      console.log("Request headers:", config.headers);
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: config.headers,
+        body: JSON.stringify(requestData)
+      });
+      if (!response.ok) {
+        console.error(`HTTP error! status: ${response.status}`);
+        throw new Error('HTTP error');
+      }
+  
+      const data = await response.json();
+      //console.log("Received response:", data); // Process search results
 
-  const openModal = () => {
-    setModalVisible(true);
+      data.forEach(item => {
+        const restaurant = item._source;
+        console.log("Restaurant Name:", restaurant.name);
+        console.log("Cuisine:", restaurant.cuisine);
+        console.log("Location:", restaurant.location);
+        console.log("City:", restaurant.city);
+        console.log("State:", restaurant.state);
+        console.log("Latitude:", restaurant.latitude);
+        console.log("Longitude:", restaurant.longitude);
+        console.log("Website:", restaurant.link);
+        console.log("Photo URL:", restaurant.photo);
+        console.log("Price Range:", restaurant.price);
+        console.log("Rating:", restaurant.rating);
+        console.log("\n");
+        // Handle arrays like 'characteristics', 'credit_cards_accepted', etc.
+      });
+      
+    } catch (error) {
+      console.error('Search failed:', error.message);
+    }
   };
+  
+  
 
   return (
     <View style={styles.container}>
@@ -20,12 +69,18 @@ const [isModalVisible, setModalVisible] = useState(false);
           end={[2, 0]}
           style={styles.gradient}
         >
-          <FontAwesome name="search" size={18} color="#fc4992" style={styles.iconStyle} />
+          <TouchableOpacity onPress={handleSearch}>
+            <FontAwesome name="search" size={18} color="#fc4992" style={styles.iconStyle} />
+          </TouchableOpacity>
           <TextInput
-            placeholder={isBottomSheet ? "Search Your Address" : "Search Halal"}
-            placeholderTextColor="#fc4992"
-            style={styles.inputStyle}
-          />
+  placeholder={isBottomSheet ? "Search Your Address" : "Search Halal"}
+  placeholderTextColor="#fc4992"
+  style={styles.inputStyle}
+  value={searchQuery}
+  onChangeText={setSearchQuery} // Update the state on text change
+  onSubmitEditing={handleSearch} // Call handleSearch when Enter/Return is pressed
+/>
+
           {isHomeScreen && <View style={styles.separator} />}
           {isHomeScreen && (
             <TouchableOpacity onPress={openSortModal}>
@@ -37,6 +92,7 @@ const [isModalVisible, setModalVisible] = useState(false);
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -80,5 +136,16 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+// const handleSearch = async (searchQuery) => {
+//   try {
+//     const response = await axios.post('http://localhost:3000/search', {
+//       query: searchQuery,
+//     });
+//     console.log(response.data); // Process search results
+//   } catch (error) {
+//     console.error('Search failed', error);
+//   }
+// };
 
 export default SearchBar;
