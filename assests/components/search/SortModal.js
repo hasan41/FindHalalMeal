@@ -75,7 +75,7 @@ const SortModal = ({ isVisible, onClose, onClear, onApplySort }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: 'white', 
+    backgroundColor: '#f5dff0', 
     padding: 22, 
     borderRadius: 4, 
     borderColor: 'rgba(0, 0, 0, 0.1)',

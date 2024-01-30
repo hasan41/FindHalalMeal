@@ -39,17 +39,17 @@ const TabNavigator = () => {
         headerShown: false,
         tabBarIcon: ({ color, size, focused }) => {
           let iconName;
-
+        
           if (route.name === 'Home') {
-            iconName = 'ios-home';
+            iconName = 'home';
           } else if (route.name === 'Profile') {
-            iconName = 'ios-person';
+            iconName = 'person';
           } else if (route.name === 'Explore') {
-            iconName = 'ios-search';
+            iconName = 'search';
           } else if (route.name === 'Browse') {
-            iconName = 'ios-map';
+            iconName = 'map';
           }
-
+        
           return <AnimatedIcon name={iconName} size={size} color={color} focused={focused} />;
         },
         tabBarStyle: {

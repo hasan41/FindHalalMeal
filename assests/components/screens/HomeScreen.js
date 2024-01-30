@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 2,
-    marginBottom: 1,
+    marginBottom: 4,
   },
   searchBarContainer: {
     marginTop: 20,
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5BEEC',
     borderRadius: 20, 
     padding: 10, // Add back the padding
-    height: 220,
+    height: 230,
     width: 280, // Increase width of restaurant container
   },
   restaurantImage: {
@@ -309,15 +309,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cuisineContainer: {
-    flexDirection: 'row', // This will layout cuisines horizontally
-    marginTop: 5,
-    alignItems: 'flex-start', // align items to the left
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap', // Allow boxes to wrap to the next line
   },
   cuisineBox: {
     backgroundColor: 'tomato',
-    borderRadius: 5,
+    borderRadius: 50,
     padding: 5,
-    margin: 5,
+    margin: 1,
+    marginRight: 2, // Add right margin to create space between boxes
   },
   cuisineText: {
     color: 'white',
